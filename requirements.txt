@@ -2,3 +2,4 @@ pyaudio
 sounddevice
 numpy
 matplotlib
+librosa
