@@ -17,7 +17,10 @@ def main():
             if audio_processor.detect_baby_cry(freqs, fft_data):
                 print("Baby cry detected!")
 
-            visualizer.update_visualizer(freqs, fft_data)
+            try:
+                visualizer.update_visualizer(freqs, fft_data)
+            except SystemExit:
+                break
 
     except KeyboardInterrupt:
         pass

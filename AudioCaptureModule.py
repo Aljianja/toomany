@@ -2,12 +2,22 @@
 
 import pyaudio
 import numpy as np
+import os
+import sys
 
 class AudioCaptureModule:
     def __init__(self, rate=44100, chunk_size=1024):
+        # Suppress ALSA error messages
+        stderr = sys.stderr
+        sys.stderr = open(os.devnull, 'w')
+
         self.rate = rate
         self.chunk_size = chunk_size
         self.pyaudio_instance = pyaudio.PyAudio()
+
+        # Restore stderr after initializing PyAudio
+        sys.stderr = stderr
+
         try:
             self.stream = self.pyaudio_instance.open(
                 format=pyaudio.paFloat32,

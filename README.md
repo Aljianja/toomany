@@ -51,6 +51,21 @@ This will start capturing audio from your microphone and display the visualizati
 - **VisualizerModule**: Visualizes the audio data in real-time.
 - **main.py**: Integrates all modules and runs the application.
 
+### Troubleshooting PyAudio Installation
+
+- **For Linux (Ubuntu/Debian):**
+    
+    1. Install PortAudio with: `sudo apt-get install portaudio19-dev`
+    2. Reinstall PyAudio: `pip install pyaudio`
+- **For macOS:**
+    
+    1. Install PortAudio using Homebrew: `brew install portaudio`
+    2. Reinstall PyAudio: `pip install pyaudio`
+- **For Windows:**
+    
+    - Try installing PyAudio using a pre-built wheel from Unofficial Windows Binaries for Python Extension Packages.
+    - Alternatively, use an Anaconda environment to install PyAudio.
+
 ## Customization
 
 You can modify the frequency range for detection in `AudioProcessingModule.py` according to your needs. The visualization style can also be customized in `VisualizerModule.py`.
