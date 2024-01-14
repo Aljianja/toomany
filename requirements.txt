@@ -1,3 +1,4 @@
 pyaudio
+sounddevice
 numpy
 matplotlib
