@@ -11,6 +11,10 @@ class VisualizerModule:
         if plt.fignum_exists(self.figure.number):
             self.ax.clear()
             self.ax.plot(freqs, fft_data)
+            self.ax.set_xlabel('Frequency (Hz)')
+            self.ax.set_ylabel('Amplitude')
+            self.ax.set_title('Real-time Audio Spectrum Analyzer')
             plt.pause(0.1)
         else:
             raise SystemExit
+

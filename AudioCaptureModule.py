@@ -1,47 +1,23 @@
 # AudioCaptureModule.py
 
-import pyaudio
+import sounddevice as sd
 import numpy as np
-import os
-import sys
 
 class AudioCaptureModule:
     def __init__(self, rate=44100, chunk_size=1024):
-        # Suppress ALSA error messages
-        stderr = sys.stderr
-        sys.stderr = open(os.devnull, 'w')
-
         self.rate = rate
         self.chunk_size = chunk_size
-        self.pyaudio_instance = pyaudio.PyAudio()
+        self.stream = sd.InputStream(samplerate=self.rate, channels=1, blocksize=self.chunk_size, dtype=np.float32)
 
-        # Restore stderr after initializing PyAudio
-        sys.stderr = stderr
-
-        try:
-            self.stream = self.pyaudio_instance.open(
-                format=pyaudio.paFloat32,
-                channels=1,
-                rate=self.rate,
-                input=True,
-                frames_per_buffer=self.chunk_size
-            )
-        except Exception as e:
-            print(f"Error opening audio stream: {e}")
-            self.cleanup()
+    def start_stream(self):
+        self.stream.start()
 
     def get_audio_data(self):
-        try:
-            audio_data = np.fromstring(self.stream.read(self.chunk_size, exception_on_overflow=False), dtype=np.float32)
-            return audio_data
-        except Exception as e:
-            print(f"Error reading audio data: {e}")
-            return np.zeros(self.chunk_size)
+        audio_data, overflowed = self.stream.read(self.chunk_size)
+        if overflowed:
+            print("Audio buffer has overflowed!")
+        return audio_data.flatten()
 
     def cleanup(self):
-        try:
-            self.stream.stop_stream()
-            self.stream.close()
-            self.pyaudio_instance.terminate()
-        except Exception as e:
-            print(f"Error closing audio stream: {e}")
+        self.stream.stop()
+        self.stream.close()

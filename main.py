@@ -9,6 +9,8 @@ def main():
     audio_processor = AudioProcessingModule()
     visualizer = VisualizerModule()
 
+    audio_capture.start_stream()
+
     try:
         while True:
             audio_data = audio_capture.get_audio_data()
